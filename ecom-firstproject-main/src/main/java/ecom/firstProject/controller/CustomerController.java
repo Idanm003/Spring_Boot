@@ -24,6 +24,11 @@ public class CustomerController {
         return customerRepository.getAllCustomers();
     }
 
+    @GetMapping(value = "/ids")
+    public List<Integer> getAllCustomerIdsByFirstName(@RequestParam String firstName){
+        return customerRepository.getAllCustomerIdsByFirstName(firstName);
+    }
+
     @PostMapping(value = "/create")
     public void createCustomer(@RequestBody Customer customer){
         customerRepository.createCustomer(customer);

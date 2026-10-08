@@ -46,6 +46,22 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
+    public List<Integer> getAllCustomerIdsByFirstName(@RequestParam String firstName) {
+        String sql = "SELECT id FROM " + CUSTOMER_TABLE_NAME +
+                " WHERE first_name=?";
+        try {
+            return jdbcTemplate.queryForList(
+                    sql,
+                    Integer.class,
+                    firstName
+            );
+        }
+        catch (EmptyResultDataAccessException e){
+            return null;
+        }
+    }
+
+    @Override
     public void createCustomer(Customer customer) {
         String sql = "INSERT INTO " + CUSTOMER_TABLE_NAME + " " +
                 "(first_name,last_name, email) values (?,?,?)";

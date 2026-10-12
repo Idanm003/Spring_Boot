@@ -1,4 +1,4 @@
-package ecom.firstProject.model;
+package ecom.firstProject.model.Customer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,8 +8,9 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String email;
+    private CustomerStatus customerStatus;
 
-    public Customer(Integer customerId, String firstName, String lastName, String email) {
+    public Customer(Integer customerId, String firstName, String lastName, String email, CustomerStatus customerStatus) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,6 +31,9 @@ public class Customer {
     public String getEmail() {
         return email;
     }
+    public CustomerStatus getCustomerStatus() {
+        return customerStatus;
+    }
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
@@ -42,6 +46,9 @@ public class Customer {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public void setCustomerStatus(CustomerStatus customerStatus) {
+        this.customerStatus = customerStatus;
     }
 
 }

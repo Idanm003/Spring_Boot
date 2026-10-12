@@ -1,7 +1,7 @@
-package ecom.firstProject.controller;
+package ecom.firstProject.controller.Customer;
 
-import ecom.firstProject.model.Customer;
-import ecom.firstProject.repository.CustomerRepository;
+import ecom.firstProject.Service.Customer.CustomerService;
+import ecom.firstProject.model.Customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,35 +12,35 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerService customerService;
 
     @GetMapping(value = "/{id}")
     public Customer getCustomerById(@PathVariable Integer id){
-        return  customerRepository.getCustomerById(id);
+        return  customerService.getCustomerById(id);
     }
 
     @GetMapping(value = "/all")
     public List<Customer> getAllCustomers(){
-        return customerRepository.getAllCustomers();
+        return customerService.getAllCustomers();
     }
 
     @GetMapping(value = "/ids")
     public List<Integer> getAllCustomerIdsByFirstName(@RequestParam String firstName){
-        return customerRepository.getAllCustomerIdsByFirstName(firstName);
+        return customerService.getAllCustomerIdsByFirstName(firstName);
     }
 
     @PostMapping(value = "/create")
     public void createCustomer(@RequestBody Customer customer){
-        customerRepository.createCustomer(customer);
+        customerService.createCustomer(customer);
     }
 
     @PutMapping(value = "/update")
     public void updateCustomer(@RequestBody Customer customer){
-        customerRepository.updateCustomer(customer);
+        customerService.updateCustomer(customer);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public void deleteCustomerById(@PathVariable Integer id){
-        customerRepository.deleteCustomerById(id);
+        customerService.deleteCustomerById(id);
     }
 }

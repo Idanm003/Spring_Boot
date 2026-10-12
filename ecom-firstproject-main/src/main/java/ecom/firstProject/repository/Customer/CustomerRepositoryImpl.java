@@ -1,7 +1,8 @@
-package ecom.firstProject.repository;
+package ecom.firstProject.repository.Customer;
 
-import ecom.firstProject.mapper.CustomerMapper;
-import ecom.firstProject.model.Customer;
+import ecom.firstProject.mapper.Customer.CustomerMapper;
+import ecom.firstProject.model.Customer.Customer;
+import ecom.firstProject.model.Customer.CustomerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -62,27 +63,45 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> getAllCustomersByStatus(CustomerStatus customerStatus) {
+        String sql = "SELECT * FROM " + CUSTOMER_TABLE_NAME +
+                " WHERE customer_status=?";
+        try{
+            return jdbcTemplate.query(
+                sql,
+                new CustomerMapper(),
+                customerStatus
+            );
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+    }
+
+
+    @Override
     public void createCustomer(Customer customer) {
         String sql = "INSERT INTO " + CUSTOMER_TABLE_NAME + " " +
-                "(first_name,last_name, email) values (?,?,?)";
+                "(first_name,last_name, email, customer_status) values (?,?,?,?)";
         jdbcTemplate.update(
                 sql,
                 customer.getFirstName(),
                 customer.getLastName(),
-                customer.getEmail()
+                customer.getEmail(),
+                customer.getCustomerStatus().name()
         );
     }
 
     @Override
     public void updateCustomer(Customer customer) {
         String sql = "UPDATE " +  CUSTOMER_TABLE_NAME + " " +
-                "SET first_name=?, last_name=?, email=? " +
+                "SET first_name=?, last_name=?, email=?, customer_status=? " +
                 "WHERE id=?";
         jdbcTemplate.update(
                 sql,
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getEmail(),
+                customer.getCustomerStatus().name(),
                 customer.getCustomerId()
         );
     }

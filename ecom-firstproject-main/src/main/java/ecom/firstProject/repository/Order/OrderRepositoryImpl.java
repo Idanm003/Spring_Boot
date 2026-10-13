@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
     private static final String ORDER_TABLE_NAME = "customer_order";
-    private static final String CUSTOMER_TABLE_NAME = "customer";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -46,9 +45,8 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public List<Integer> getAllIdsByFullName(String fullName) {
-        String sql = "SELECT o.id FROM " + ORDER_TABLE_NAME + " o" +
-                " JOIN " + CUSTOMER_TABLE_NAME + " c ON c.id = o.customer_id" +
-                " WHERE CONCAT(c.first_name, ' ', c.last_name) = ?";
+       String sql = "SELECT id FROM " + ORDER_TABLE_NAME +
+               " WHERE full_name=?";
         try {
             return jdbcTemplate.queryForList(
                 sql,

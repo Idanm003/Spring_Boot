@@ -1,9 +1,9 @@
 CREATE TABLE customer (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name varchar (300) NOT NULL DEFAULT '',
-    last_name varchar (300) NOT NULL DEFAULT '',
-    email varchar (300) NOT NULL DEFAULT '',
-    customer_status varchar (300) NOT NULL DEFAULT 'REGULAR'
+    first_name VARCHAR (300) NOT NULL DEFAULT '',
+    last_name VARCHAR (300) NOT NULL DEFAULT '',
+    email VARCHAR (300) NOT NULL DEFAULT '',
+    customer_status VARCHAR (300) NOT NULL DEFAULT 'REGULAR'
 );
 
 CREATE TABLE customer_order (
@@ -12,4 +12,10 @@ CREATE TABLE customer_order (
     item_name VARCHAR (300) NOT NULL DEFAULT '',
     price DECIMAL(10.2) NOT NULL DEFAULT 00.00,
     CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customer(id)
+);
+
+CREATE TABLE person (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR (300) NOT NULL DEFAULT '',
+    last_name VARCHAR (300) NOT NULL DEFAULT ''
 );

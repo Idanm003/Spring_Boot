@@ -7,6 +7,14 @@ VALUES ('Idan', 'Magen', 'example@example.com', 'VIP'),
 
 INSERT INTO customer_order(customer_id, item_name, price)
 VALUES (1, 'Basketball', 30.00),
-       (1, 'Samsung phone', 1999.99),
-       (2, 'Iphone phone', 2999.99),
-       (2, 'Chair', 1589.99)
+       (1, 'Samsung', 22.00),
+       (2, 'Iphone', 35.00),
+       (4, 'MacBook', 2000.00),
+       (5, 'Mouse', 30.00),
+       (1, 'keyboard', 30.00);
+
+INSERT INTO person(id, first_name, last_name)
+VALUES (1, 'John', 'Cena'),
+       (2, 'Joe', 'Dirt'),
+       (3, 'Monica', 'Geller'),
+       (4, 'Hanna', 'Montana');

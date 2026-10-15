@@ -25,10 +25,3 @@ src/main/resources/
 ├── schema.sql                        # Table definitions
 └── data.sql                          # Seed data
 ```
-
-## Notes and Limitations
-
-- The database is in-memory, so all data is reset when the application restarts.
-- Only create, update and delete endpoints exist; there are no read (GET) endpoints yet.
-- The `customer_order` table is not yet exposed through the API.
-- Deleting a customer who has orders will fail due to the foreign key constraint.

@@ -15,6 +15,7 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.customerStatus = customerStatus;
     }
 
     public Customer(){}

@@ -34,28 +34,33 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void createCustomer(Customer customer) {
-        List<Customer> vipCustomers = customerRepository.getAllCustomersByStatus(CustomerStatus.VIP);
-
+    public Integer createCustomer(Customer customer) throws Exception {
+        //Object Mapper reference
         String customerAsString = objectMapper.writeValueAsString(customer);
+        System.out.println("Starting create a customer : " + customerAsString);
         Customer customerFromString = objectMapper.readValue(customerAsString, Customer.class);
+        System.out.println(customerFromString.getFirstName());
 
-        if (!(vipCustomers.size() >= 10 )) {
-            customerRepository.createCustomer(customer);
-        }
-        else {
-            System.out.println("Max VIP Customers Exists");
+        if (customer.getCustomerStatus() == CustomerStatus.VIP) {
+            List<Customer> vipCustomers = customerRepository.getAllCustomersByStatus(CustomerStatus.VIP);
+
+            if (!(vipCustomers.size() >= 10)) {
+                return customerRepository.createCustomer(customer);
+            } else {
+                throw new Exception("ould not create new customer with status VIP - Out of limit");
+            }
+        } else {
+            return customerRepository.createCustomer(customer);
         }
     }
 
     @Override
-    public void updateCustomer(Customer customer) {
+    public void updateCustomer(Customer customer) throws Exception {
         if (customer.getCustomerStatus() == CustomerStatus.VIP) {
             List<Customer> vipCustomers = customerRepository.getAllCustomersByStatus(CustomerStatus.VIP);
-            if (!(vipCustomers.size() > 5)) {
-                customerRepository.updateCustomer(customer);
-            } else {
-                System.out.println("Max VIP Customers Reached");
+
+            if (!(vipCustomers.size() >= 10)) {
+                throw new Exception("Cannot update customer with status VIP - Out of limit");
             }
         } else {
             customerRepository.updateCustomer(customer);
@@ -63,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteCustomerById(Integer id) {
+    public void deleteCustomerById(Integer id) throws Exception {
         customerRepository.deleteCustomerById(id);
     }
 }

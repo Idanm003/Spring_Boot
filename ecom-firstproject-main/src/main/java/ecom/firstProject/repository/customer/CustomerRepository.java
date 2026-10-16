@@ -10,7 +10,7 @@ public interface CustomerRepository {
     List<Customer> getAllCustomers();
     List<Integer> getAllCustomerIdsByFirstName(String firstName);
     List<Customer> getAllCustomersByStatus(CustomerStatus customerStatus);
-    void createCustomer(Customer customer);
-    void updateCustomer(Customer customer);
-    void deleteCustomerById(Integer id);
+    Integer createCustomer(Customer customer) throws Exception;
+    void updateCustomer(Customer customer) throws Exception;
+    void deleteCustomerById(Integer id) throws Exception;
 }

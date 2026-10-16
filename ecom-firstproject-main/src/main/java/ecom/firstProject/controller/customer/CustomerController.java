@@ -30,17 +30,17 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/create")
-    public void createCustomer(@RequestBody Customer customer){
+    public void createCustomer(@RequestBody Customer customer) throws Exception {
         customerService.createCustomer(customer);
     }
 
     @PutMapping(value = "/update")
-    public void updateCustomer(@RequestBody Customer customer){
+    public void updateCustomer(@RequestBody Customer customer) throws Exception {
         customerService.updateCustomer(customer);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public void deleteCustomerById(@PathVariable Integer id){
+    public void deleteCustomerById(@PathVariable Integer id) throws Exception {
         customerService.deleteCustomerById(id);
     }
 }

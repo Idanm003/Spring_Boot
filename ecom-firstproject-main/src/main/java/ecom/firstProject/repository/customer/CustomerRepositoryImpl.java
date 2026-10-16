@@ -70,7 +70,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             return jdbcTemplate.query(
                 sql,
                 new CustomerMapper(),
-                customerStatus
+                customerStatus.name()
             );
         }catch (EmptyResultDataAccessException e){
             return null;
@@ -79,36 +79,49 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
 
     @Override
-    public void createCustomer(Customer customer) {
+    public Integer createCustomer(Customer customer) throws Exception {
         String sql = "INSERT INTO " + CUSTOMER_TABLE_NAME + " " +
                 "(first_name,last_name, email, customer_status) values (?,?,?,?)";
-        jdbcTemplate.update(
-                sql,
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getEmail(),
-                customer.getCustomerStatus().name()
-        );
+        try {
+            jdbcTemplate.update(
+                    sql,
+                    customer.getFirstName(),
+                    customer.getLastName(),
+                    customer.getEmail(),
+                    customer.getCustomerStatus().name()
+            );
+            return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        } catch (EmptyResultDataAccessException e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
-    public void updateCustomer(Customer customer) {
+    public void updateCustomer(Customer customer) throws Exception {
         String sql = "UPDATE " +  CUSTOMER_TABLE_NAME + " " +
                 "SET first_name=?, last_name=?, email=?, customer_status=? " +
                 "WHERE id=?";
-        jdbcTemplate.update(
-                sql,
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getEmail(),
-                customer.getCustomerStatus().name(),
-                customer.getCustomerId()
-        );
+        try {
+            jdbcTemplate.update(
+                    sql,
+                    customer.getFirstName(),
+                    customer.getLastName(),
+                    customer.getEmail(),
+                    customer.getCustomerStatus().name(),
+                    customer.getCustomerId()
+            );
+        } catch (EmptyResultDataAccessException e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
-    public void deleteCustomerById(Integer id) {
+    public void deleteCustomerById(Integer id) throws Exception {
         String sql = "DELETE FROM " + CUSTOMER_TABLE_NAME + " WHERE id=?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql,id);
+        } catch (EmptyResultDataAccessException e){
+            throw new Exception(e.getMessage());
+        }
     }
 }

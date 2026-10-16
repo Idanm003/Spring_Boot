@@ -1,6 +1,10 @@
 package ecom.firstProject.model.customer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ecom.firstProject.model.order.Order;
+import ecom.firstProject.responses.OrderResponse;
+
+import java.util.List;
 
 public class Customer {
     @JsonProperty ("id")
@@ -52,4 +56,7 @@ public class Customer {
         this.customerStatus = customerStatus;
     }
 
+    public OrderResponse toOrderResponse(Customer customer, List<Order> orderList) {
+        return new OrderResponse(customer, orderList);
+    }
 }

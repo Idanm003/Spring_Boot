@@ -8,7 +8,7 @@ public interface CustomerService {
     Customer getCustomerById(Integer id);
     List<Customer> getAllCustomers();
     List<Integer> getAllCustomerIdsByFirstName(String firstName);
-    void createCustomer(Customer customer);
-    void updateCustomer(Customer customer);
-    void deleteCustomerById(Integer id);
+    Integer createCustomer(Customer customer) throws Exception;
+    void updateCustomer(Customer customer) throws Exception;
+    void deleteCustomerById(Integer id) throws Exception;
 }

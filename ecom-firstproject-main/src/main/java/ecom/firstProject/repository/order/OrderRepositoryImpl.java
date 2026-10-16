@@ -26,6 +26,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                     id
             );
         } catch (EmptyResultDataAccessException e) {
+            System.out.println("Not found");
             return null;
         }
     }
@@ -40,6 +41,20 @@ public class OrderRepositoryImpl implements OrderRepository {
             );
         } catch (EmptyResultDataAccessException e) {
             return null;
+        }
+    }
+
+    @Override
+    public List<Order> getAllOrdersByCustomerId(Integer customerId) throws Exception {
+        String sql = "SELECT * FROM " + ORDER_TABLE_NAME + " WHERE customer_id=?";
+        try {
+            return jdbcTemplate.query(
+                    sql,
+                    new OrderMapper(),
+                    customerId
+            );
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -60,34 +75,47 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void createOrder(Order order) {
+    public void createOrder(Order order) throws Exception{
         String sql = "INSERT INTO " + ORDER_TABLE_NAME + " " +
                 "(customer_id, item_name, price) VALUES (?,?,?)";
-        jdbcTemplate.update(
-                sql,
-                order.getCustomerId(),
-                order.getItemName(),
-                order.getPrice()
-        );
+        try {
+            jdbcTemplate.update(
+                    sql,
+                    order.getCustomerId(),
+                    order.getItemName(),
+                    order.getPrice()
+            );
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
-    public void updateOrder(Order order) {
+    public void updateOrder(Order order) throws Exception{
         String sql = "UPDATE " + ORDER_TABLE_NAME + " " +
                 "SET customer_id=?, item_name=?, price=?" +
                 " WHERE id=?";
-        jdbcTemplate.update(
-                sql,
-                order.getCustomerId(),
-                order.getItemName(),
-                order.getPrice(),
-                order.getOrderId()
-        );
+        try {
+            jdbcTemplate.update(
+                    sql,
+                    order.getCustomerId(),
+                    order.getItemName(),
+                    order.getPrice(),
+                    order.getOrderId()
+            );
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
-    public void deleteOrderById(Integer id) {
+    public void deleteOrderById(Integer id) throws Exception{
         String sql = "DELETE FROM " + ORDER_TABLE_NAME + " WHERE id=?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        }
+        catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 }

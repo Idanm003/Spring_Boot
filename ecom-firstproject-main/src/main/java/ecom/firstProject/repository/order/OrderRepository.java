@@ -6,8 +6,9 @@ import java.util.List;
 public interface OrderRepository {
     Order getOrderById(Integer id);
     List<Order> getAllOrders();
+    List<Order> getAllOrdersByCustomerId(Integer customerId) throws Exception;
     List<Integer> getAllIdsByFullName(String fullName);
-    void createOrder(Order order);
-    void updateOrder(Order order);
-    void deleteOrderById(Integer id);
+    void createOrder(Order order) throws Exception;
+    void updateOrder(Order order) throws Exception;
+    void deleteOrderById(Integer id) throws Exception;
 }

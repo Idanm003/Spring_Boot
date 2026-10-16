@@ -1,5 +1,10 @@
 package ecom.firstProject.model.order;
 
+import ecom.firstProject.model.customer.Customer;
+import ecom.firstProject.responses.OrderResponse;
+
+import java.util.List;
+
 public class Order {
     private Integer orderId;
     private Integer customerId;
@@ -39,5 +44,14 @@ public class Order {
     }
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public OrderResponse toOrderResponse(
+            Customer customer,
+            List<Order> customerOrderList ) {
+        return new OrderResponse(
+                customer,
+                customerOrderList
+        );
     }
 }

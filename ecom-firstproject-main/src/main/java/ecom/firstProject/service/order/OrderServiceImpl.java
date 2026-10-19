@@ -60,11 +60,10 @@ public class OrderServiceImpl implements OrderService {
             throw new Exception("Customer is missing in the request");
         }
         List<Order> orderListForResponse = orderRepository.getAllOrdersByCustomerId(customerForResponse.getCustomerId());
-        OrderResponse orderResponse = orderRequest.getOrder().toOrderResponse(
+        return orderRequest.getOrder().toOrderResponse(
                 customerForResponse,
                 orderListForResponse
         );
-        return orderResponse;
     }
 
     @Override

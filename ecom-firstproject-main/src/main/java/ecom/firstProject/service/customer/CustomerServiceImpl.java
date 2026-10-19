@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
             if (!(vipCustomers.size() >= 10)) {
                 return customerRepository.createCustomer(customer);
             } else {
-                throw new Exception("ould not create new customer with status VIP - Out of limit");
+                throw new Exception("Could not create new customer with status VIP - Out of limit");
             }
         } else {
             return customerRepository.createCustomer(customer);

@@ -1,4 +1,4 @@
-package ecom.firstProject.responses;
+package ecom.firstProject.responses.order;
 
 import ecom.firstProject.model.customer.Customer;
 import ecom.firstProject.model.order.Order;

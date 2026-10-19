@@ -2,7 +2,7 @@ package ecom.firstProject.model.customer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ecom.firstProject.model.order.Order;
-import ecom.firstProject.responses.OrderResponse;
+import ecom.firstProject.responses.order.OrderResponse;
 
 import java.util.List;
 

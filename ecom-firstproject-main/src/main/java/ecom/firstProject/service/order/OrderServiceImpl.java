@@ -3,7 +3,7 @@ package ecom.firstProject.service.order;
 import ecom.firstProject.model.customer.Customer;
 import ecom.firstProject.model.order.Order;
 import ecom.firstProject.requests.order.OrderRequest;
-import ecom.firstProject.responses.OrderResponse;
+import ecom.firstProject.responses.order.OrderResponse;
 import ecom.firstProject.service.customer.CustomerService;
 import ecom.firstProject.repository.order.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;

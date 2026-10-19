@@ -2,7 +2,7 @@ package ecom.firstProject.service.order;
 
 import ecom.firstProject.model.order.Order;
 import ecom.firstProject.requests.order.OrderRequest;
-import ecom.firstProject.responses.OrderResponse;
+import ecom.firstProject.responses.order.OrderResponse;
 
 import java.util.List;
 

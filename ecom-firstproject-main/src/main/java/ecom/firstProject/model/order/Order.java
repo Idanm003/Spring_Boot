@@ -1,7 +1,7 @@
 package ecom.firstProject.model.order;
 
 import ecom.firstProject.model.customer.Customer;
-import ecom.firstProject.responses.OrderResponse;
+import ecom.firstProject.responses.order.OrderResponse;
 
 import java.util.List;
 

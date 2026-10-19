@@ -16,3 +16,8 @@ spring:
 externalApi:
   tvMaze:
     url: https://api.tvmaze.com
+
+redis:
+  host: localhost
+  port: 6380
+  ttl: 72000

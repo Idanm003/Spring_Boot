@@ -3,11 +3,13 @@ package ecom.firstProject.repository.customer;
 import ecom.firstProject.mapper.customer.CustomerMapper;
 import ecom.firstProject.model.customer.Customer;
 import ecom.firstProject.model.customer.CustomerStatus;
+import ecom.firstProject.redis.CacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -19,17 +21,38 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    CacheRepository cacheRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Override
     public Customer getCustomerById(Integer id) {
-        String sql = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " WHERE id=?";
-        try {
-        return jdbcTemplate.queryForObject(
-                sql,
-                new CustomerMapper(),
-                id
-        );
-        } catch (EmptyResultDataAccessException e) {
-            return null;
+        String customerFromCacheAsString = cacheRepository.getCacheEntity(id.toString());
+
+        if (customerFromCacheAsString == null) {
+            String sql = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " WHERE id=?";
+            try {
+
+                Customer customerFromDB = jdbcTemplate.queryForObject(
+                        sql,
+                        new CustomerMapper(),
+                        id
+                );
+
+                String customerAsString = objectMapper.writeValueAsString(customerFromDB);
+                cacheRepository.createCacheEntity(customerFromDB.getCustomerId().toString(), customerAsString);
+                return customerFromDB;
+            } catch (EmptyResultDataAccessException e) {
+                return null;
+            }
+        } else {
+            Customer customerFromCachesAsObject = objectMapper.readValue(
+                    customerFromCacheAsString,
+                    Customer.class
+            );
+            return customerFromCachesAsObject;
         }
     }
 
@@ -110,6 +133,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                     customer.getCustomerStatus().name(),
                     customer.getCustomerId()
             );
+            String customerAsString = objectMapper.writeValueAsString(customer);
+            cacheRepository.updateCacheEntity(customer.getCustomerId().toString(), customerAsString);
+
         } catch (EmptyResultDataAccessException e){
             throw new Exception(e.getMessage());
         }
@@ -119,8 +145,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public void deleteCustomerById(Integer id) throws Exception {
         String sql = "DELETE FROM " + CUSTOMER_TABLE_NAME + " WHERE id=?";
         try {
-            jdbcTemplate.update(sql,id);
-        } catch (EmptyResultDataAccessException e){
+            jdbcTemplate.update(
+                    sql,
+                    id
+            );
+            cacheRepository.deleteCacheEntity(id.toString());
+        } catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }

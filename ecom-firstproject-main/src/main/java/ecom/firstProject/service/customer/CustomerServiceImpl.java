@@ -60,6 +60,8 @@ public class CustomerServiceImpl implements CustomerService {
             List<Customer> vipCustomers = customerRepository.getAllCustomersByStatus(CustomerStatus.VIP);
 
             if (!(vipCustomers.size() >= 10)) {
+                customerRepository.updateCustomer(customer);
+            } else {
                 throw new Exception("Cannot update customer with status VIP - Out of limit");
             }
         } else {

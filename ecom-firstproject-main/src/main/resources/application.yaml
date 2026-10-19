@@ -12,3 +12,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+externalApi:
+  tvMaze:
+    url: https://api.tvmaze.com

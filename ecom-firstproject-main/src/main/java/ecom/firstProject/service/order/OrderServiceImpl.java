@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
                 customerForResponse = customerService.getCustomerById(createdCustomerId);
             }
         } else {
-            throw new Exception("Customer with id " + selectedCustomer.getCustomerId() + " not found");
+            throw new Exception("Customer is missing in the request");
         }
         List<Order> orderListForResponse = orderRepository.getAllOrdersByCustomerId(customerForResponse.getCustomerId());
         OrderResponse orderResponse = orderRequest.getOrder().toOrderResponse(
@@ -69,30 +69,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse updateOrder(Order order) throws Exception {
-        Customer customerForResponse = null;
-        if (order.getCustomerId() != null) {
-            Order existingOrder = orderRepository.getOrderById(order.getCustomerId());
-            if (existingOrder != null) {
-                Integer updatedCustomerId = existingOrder.getCustomerId();
-                Customer existingCustomer = customerService.getCustomerById(updatedCustomerId);
-                if (existingCustomer != null) {
-                    if (order.getCustomerId().equals(existingCustomer.getCustomerId())) {
-                        orderRepository.updateOrder(order);
-                        customerForResponse = existingCustomer;
-                    } else {
-                        throw new Exception("Order with id " + existingOrder.getCustomerId() + " belongs to another customer!");
-                    }
-                }
-                else {
-                    throw new Exception("Customer with id " + existingCustomer.getCustomerId() + " not found!");
-                }
-            } else {
-                throw new Exception("There is no customer in the request");
-            }
+        if (order.getCustomerId() == null) {
+            throw new Exception("There is no customer in the request");
         }
+        Order existingOrder = orderRepository.getOrderById(order.getOrderId());
+        if (existingOrder == null) {
+            throw new Exception("Order with id " + order.getOrderId() + " not found!");
+        }
+        if (!order.getCustomerId().equals(existingOrder.getCustomerId())) {
+            throw new Exception("Order with id " + existingOrder.getOrderId() + " belongs to another customer!");
+        }
+        Customer customerForResponse = customerService.getCustomerById(existingOrder.getCustomerId());
+        if (customerForResponse == null) {
+            throw new Exception("Customer with id " + existingOrder.getCustomerId() + " not found!");
+        }
+        orderRepository.updateOrder(order);
         List<Order> orderListForResponse = orderRepository.getAllOrdersByCustomerId(customerForResponse.getCustomerId());
 
-        OrderResponse orderResponse = customerForResponse.toOrderResponse(
+        OrderResponse orderResponse = order.toOrderResponse(
                 customerForResponse,
                 orderListForResponse
         );

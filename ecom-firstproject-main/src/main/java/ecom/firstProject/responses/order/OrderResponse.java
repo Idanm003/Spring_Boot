@@ -7,24 +7,24 @@ import java.util.List;
 
 public class OrderResponse {
     private Customer customer;
-    private List<Order> orders;
+    private List<Order> orderList;
 
-    public OrderResponse(Customer customer, List<Order> orders) {
+    public OrderResponse(Customer customer, List<Order> orderList) {
         this.customer = customer;
-        this.orders = orders;
+        this.orderList = orderList;
     }
 
     public Customer getCustomer() {
-        return customer;
+        return this.customer;
     }
     public List<Order> getOrders() {
-        return orders;
+        return this.orderList;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setOrders(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }
